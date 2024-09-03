@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Bell,
@@ -12,9 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SignInButton } from "@clerk/clerk-react";
 
-export function SideBar() {
+const Sidebar = () => {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -108,10 +109,10 @@ export function SideBar() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1"></div>
-          <SignInButton />
         </header>
       </div>
     </div>
   );
-}
+};
+
+export default Sidebar;
