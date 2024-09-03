@@ -8,17 +8,25 @@ export default function Home() {
 
   if (!isLoaded || !isSignedIn) {
     return (
-      <>
-        <Sidebar />
-        <SignInButton />
-      </>
+      <div className="flex w-screen h-screen">
+        <div className="w-1/4 h-full">
+          <Sidebar />
+        </div>
+        <div className="flex-1 flex justify-end items-start p-5">
+          <SignInButton />
+        </div>
+      </div>
     );
   }
 
   return (
-    <>
-      <Sidebar />
-      <UserButton />
-    </>
+    <div className="flex w-screen h-screen">
+      <div className="w-1/4 h-full">
+        <Sidebar />
+      </div>
+      <div className="flex-1 flex justify-end items-start p-5">
+        <UserButton />
+      </div>
+    </div>
   );
 }
