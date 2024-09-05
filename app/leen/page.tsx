@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // Adjust this path based on your shadcn setup
+} from "@/components/ui/table";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);

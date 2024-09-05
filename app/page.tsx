@@ -1,4 +1,5 @@
 "use client";
+
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 export default function Example() {
