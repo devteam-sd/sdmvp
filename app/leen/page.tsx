@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchData } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 import {
   Table,
   TableBody,
@@ -10,16 +10,49 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { fetchData } from "@/lib/data-fetcher";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [privateMetadata, setPrivateMetadata] = useState<any>(null);
+
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    const fetchPrivateMetadata = async () => {
+      if (!isLoaded || !isSignedIn || !user) return;
+
+      try {
+        const userId = user.id;
+        // Fetch private metadata from the API route
+        const response = await fetch(`/api/get-user-metadata?userId=${userId}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setPrivateMetadata(result.privateMetadata);
+        } else {
+          setError(result.error || "Failed to fetch private metadata.");
+        }
+      } catch (err: any) {
+        setError("Error fetching metadata: " + err.message);
+      }
+    };
+
+    fetchPrivateMetadata();
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     const getData = async () => {
+      if (!privateMetadata || !user) return;
+
       try {
-        const result = await fetchData("/entities/devices");
+        const result = await fetchData(
+          "/entities/devices",
+          privateMetadata.LEEN_API_KEY,
+          privateMetadata.LEEN_S1_CONNECTION_ID
+        );
         setData(result);
       } catch (err: any) {
         setError(err.message);
@@ -29,7 +62,7 @@ export default function Home() {
     };
 
     getData();
-  }, []);
+  }, [privateMetadata, user]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
