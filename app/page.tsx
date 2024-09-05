@@ -16,7 +16,9 @@ export default function Example() {
   return (
     <>
       <p>Hello, {user.firstName}!</p>
+      <br />
       <p>Your current active session is: {user.id}.</p>
+      <br />
       <UserButton />
     </>
   );
