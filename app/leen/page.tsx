@@ -14,18 +14,25 @@ import { fetchData } from "@/lib/data-fetcher";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Keep loading until all data is fetched
   const [error, setError] = useState<string | null>(null);
   const [privateMetadata, setPrivateMetadata] = useState<any>(null);
 
   const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
-    const fetchPrivateMetadata = async () => {
-      if (!isLoaded || !isSignedIn || !user) return;
+    if (!isLoaded) {
+      return; // Do nothing if the Clerk user is not loaded yet
+    }
 
+    if (!isSignedIn) {
+      setLoading(false); // User is not signed in, so stop loading and return
+      return;
+    }
+
+    const fetchPrivateMetadata = async () => {
       try {
-        const userId = user.id;
+        const userId = user?.id;
         // Fetch private metadata from the API route
         const response = await fetch(`/api/get-user-metadata?userId=${userId}`);
         const result = await response.json();
@@ -34,9 +41,11 @@ export default function Home() {
           setPrivateMetadata(result.privateMetadata);
         } else {
           setError(result.error || "Failed to fetch private metadata.");
+          setLoading(false); // Stop loading if there's an error
         }
       } catch (err: any) {
         setError("Error fetching metadata: " + err.message);
+        setLoading(false); // Stop loading if there's an error
       }
     };
 
@@ -44,10 +53,11 @@ export default function Home() {
   }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
-    const getData = async () => {
-      if (!privateMetadata || !user) return;
+    if (!privateMetadata || !user) return;
 
+    const getData = async () => {
       try {
+        // Fetch data only if private metadata is available
         const result = await fetchData(
           "/entities/devices",
           privateMetadata.LEEN_API_KEY,
@@ -57,15 +67,21 @@ export default function Home() {
       } catch (err: any) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // Only stop loading after both data and metadata are fetched
       }
     };
 
     getData();
   }, [privateMetadata, user]);
 
+  // Show "Loading..." until both metadata and data are fetched
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+
+  if (error) return <p>Internal Error: {error}</p>;
+
+  if (!isSignedIn) {
+    return <p>You need to be signed in to view this page.</p>;
+  }
 
   return (
     <div className="container mx-auto py-10">
