@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/navbar";
+import SideBar from "@/components/sidebar";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -18,5 +20,15 @@ export default function HomePage() {
     return <div>Loading...</div>;
   }
 
-  return <div className="flex h-screen"></div>;
+  return (
+    <div className="grid grid-cols-[225px_1fr] grid-rows-[60px_1fr] h-screen">
+      <div className="row-span-2">
+        <SideBar />
+      </div>
+      <div className="col-span-1">
+        <Navbar />
+      </div>
+      <div className="col-span-1"></div>
+    </div>
+  );
 }
