@@ -25,10 +25,10 @@ export default function SignInPage() {
             <>
               <SignIn.Step name="start">
                 <Card className="w-full sm:w-96">
-                  <CardHeader>
-                    <CardTitle>Sign in to SD MVP</CardTitle>
+                  <CardHeader className="flex items-center justify-center">
+                    <CardTitle>SD MVP</CardTitle>
                     <CardDescription>
-                      Welcome back! Please sign in to continue
+                      Welcome back! Please sign in to continue...
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
