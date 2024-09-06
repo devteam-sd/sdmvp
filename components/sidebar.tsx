@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Computer, ShieldAlert, Menu } from "lucide-react";
-import { UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
 const SideBar = () => {
@@ -15,7 +14,7 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`flex h-screen flex-col bg-primary p-4 text-primary-foreground transition-all duration-250 ${
+      className={`flex h-screen flex-col bg-primary p-4 text-primary-foreground transition-all duration-700 ${
         isCollapsed ? "w-20" : "w-64"
       }`}
       style={{ borderTopRightRadius: "0.75rem" }} // Adding rounded top right corner
