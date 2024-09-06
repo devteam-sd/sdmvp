@@ -1,5 +1,5 @@
 // components/Sidebar.tsx
-
+"use client";
 import React, { useState } from "react";
 import { Computer, ShieldAlert, Menu } from "lucide-react";
 import Image from "next/image";
@@ -14,7 +14,7 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`flex h-screen flex-col bg-primary p-4 text-primary-foreground transition-all duration-700 ${
+      className={`flex flex-col bg-primary p-4 text-primary-foreground transition-all duration-700 h-screen ${
         isCollapsed ? "w-20" : "w-64"
       }`}
       style={{ borderTopRightRadius: "0.75rem" }} // Adding rounded top right corner
