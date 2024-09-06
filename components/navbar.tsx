@@ -5,7 +5,7 @@ const Navbar = () => {
   const { user } = useUser();
   return (
     <nav className="top-0 left-0 right-0 bg-white shadow-md z-50">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="mx-auto px-4 py-3 flex justify-between items-center">
         {/* Right Side - Profile */}
         <div className="flex items-center space-x-2 ml-auto mr-1">
           <div className="text-sm text-right">

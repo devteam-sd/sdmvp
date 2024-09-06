@@ -21,8 +21,13 @@ export default function HomePage() {
   }
 
   return (
-    <div>
-      <SideBar />
+    <div className="flex">
+      <aside className="">
+        <SideBar />
+      </aside>
+      <nav className="w-full">
+        <Navbar />
+      </nav>
     </div>
   );
 }
