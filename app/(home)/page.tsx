@@ -21,14 +21,8 @@ export default function HomePage() {
   }
 
   return (
-    <div className="grid grid-cols-[225px_1fr] grid-rows-[60px_1fr] h-screen">
-      <div className="row-span-2">
-        <SideBar />
-      </div>
-      <div className="col-span-1">
-        <Navbar />
-      </div>
-      <div className="col-span-1"></div>
+    <div>
+      <SideBar />
     </div>
   );
 }
