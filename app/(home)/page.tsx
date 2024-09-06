@@ -5,28 +5,39 @@ import SideBar from "@/components/sidebar";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function HomePage() {
   const { isLoaded, userId } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // Set loading initially
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (isLoaded) {
       if (!userId) {
-        router.push("/sign-in"); // Redirect if not authenticated
+        router.push("/sign-in");
       } else {
-        setLoading(false); // Set loading to false if authenticated
+        setLoading(false);
       }
     }
   }, [isLoaded, userId, router]);
 
   // If auth status is loading or we are redirecting, show loading state
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        {/* Spinning favicon */}
+        <Image
+          src="/favicon.ico"
+          alt="Loading"
+          width={50}
+          height={50}
+          className="animate-spin filter invert contrast-100 brightness-100"
+        />
+      </div>
+    );
   }
 
-  // Only render the content if the user is authenticated
   return (
     <div className="flex">
       <aside className="">
