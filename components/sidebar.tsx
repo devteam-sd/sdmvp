@@ -1,8 +1,9 @@
 // components/Sidebar.tsx
-
+"use client";
 import React, { useState } from "react";
 import { Computer, ShieldAlert, Menu } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -14,7 +15,7 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`flex h-screen flex-col bg-primary p-4 text-primary-foreground transition-all duration-700 ${
+      className={`flex flex-col bg-primary p-4 text-primary-foreground transition-all duration-700 h-screen ${
         isCollapsed ? "w-20" : "w-64"
       }`}
       style={{ borderTopRightRadius: "0.75rem" }} // Adding rounded top right corner
@@ -29,13 +30,15 @@ const SideBar = () => {
         <div className="flex items-center justify-center w-full">
           {/* App Logo */}
           <div className="flex items-center justify-center h-8 w-8 rounded-full flex-shrink-0">
-            <Image
-              src="/icon.png"
-              alt=""
-              width={50}
-              height={50}
-              className="invert"
-            ></Image>{" "}
+            <Link href="/">
+              <Image
+                src="/icon.png" // Replace with your image source
+                alt="Logo"
+                width={50}
+                height={50}
+                className="invert"
+              />
+            </Link>
           </div>
           {/* App Name */}
           {!isCollapsed && (
@@ -65,7 +68,7 @@ const SideBar = () => {
           </div>
         )}
         <a
-          href="#"
+          href="/endpoints"
           className={`flex items-center gap-3 p-2 text-gray-400 hover:bg-gray-800 hover:text-primary-foreground rounded-md ${
             isCollapsed ? "justify-center" : ""
           }`}
@@ -75,7 +78,7 @@ const SideBar = () => {
         </a>
 
         <a
-          href="#"
+          href="/threats"
           className={`flex items-center gap-3 p-2 text-gray-400 hover:bg-gray-800 hover:text-primary-foreground rounded-md ${
             isCollapsed ? "justify-center" : ""
           }`}
