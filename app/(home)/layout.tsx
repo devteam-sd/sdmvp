@@ -1,29 +1,45 @@
 "use client";
+
 import Navbar from "@/components/navbar";
 import SideBar from "@/components/sidebar";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoaded, userId } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
-
-  // State to receive collapsed state from SideBar
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (isLoaded && !userId) {
-      router.push("/sign-in"); // Redirect if not authenticated
+    if (isLoaded) {
+      if (!isSignedIn) {
+        router.push("/sign-in");
+      } else {
+        setLoading(false);
+      }
     }
-  }, [isLoaded, userId, router]);
+  }, [isLoaded, isSignedIn, router]);
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
+  if (loading || !isLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        {/* Spinning favicon */}
+        <Image
+          src="/icon.png"
+          alt="Loading"
+          width={50}
+          height={50}
+          className="animate-spin filter contrast-100 brightness-100"
+        />
+      </div>
+    );
   }
 
   return (
