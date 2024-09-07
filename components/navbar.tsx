@@ -20,9 +20,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                {/* Ensure consistent height and width with actual content */}
-                <p className="font-medium mr-1 bg-gray-300 h-5 w-24 rounded animate-pulse"></p>
-                <p className="text-gray-500 mr-1 bg-gray-200 h-4 w-32 rounded animate-pulse"></p>
+                {/* Placeholder for username and email, aligned to the right */}
+                <div className="flex flex-col items-end">
+                  <p className="font-medium bg-gray-300 h-5 w-24 rounded animate-pulse"></p>
+                  <p className="text-gray-500 bg-gray-200 h-4 w-32 rounded mt-1 animate-pulse"></p>
+                </div>
               </>
             )}
           </div>
