@@ -17,14 +17,14 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type Device = {
   id: string;
   amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Device>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -47,40 +47,68 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
-  },
-
-  {
-    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "hostnames",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Hostname
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "platform",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Platform
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "last_seen",
+    header: () => <div className="text-right">Last Seen</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
+      const lastSeen = parseFloat(row.getValue("last_seen"));
+      const formatted = new Date(lastSeen * 1000).toLocaleString();
 
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
+    accessorKey: "ipv4s",
+    header: () => <div className="text-right">IP Addresses</div>,
+    cell: ({ row }) => {
+      const ipv4s = (row.getValue("ipv4s") as string[]) || [];
+      return <div className="text-right">{ipv4s.join(", ")}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const device = row.original;
 
       return (
         <DropdownMenu>
@@ -93,13 +121,13 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(device.id)}
             >
-              Copy payment ID
+              Copy Device ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>View device details</DropdownMenuItem>
+            <DropdownMenuItem>View device options</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

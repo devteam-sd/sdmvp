@@ -90,6 +90,7 @@ export default function Home() {
         <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <TableHeader>
             <TableRow>
+              <TableHead className="px-4 py-2">ID</TableHead>
               <TableHead className="px-4 py-2">Hostname</TableHead>
               <TableHead className="px-4 py-2">Platform</TableHead>
               <TableHead className="px-4 py-2">Status</TableHead>
@@ -100,6 +101,9 @@ export default function Home() {
           <TableBody>
             {data.items.map((device: any) => (
               <TableRow key={device.id} className="hover:bg-gray-100">
+                <TableCell className="border px-4 py-2">
+                  {device.id || "N/A"}
+                </TableCell>
                 <TableCell className="border px-4 py-2">
                   {device.hostnames && device.hostnames.length > 0
                     ? device.hostnames.join(", ")
