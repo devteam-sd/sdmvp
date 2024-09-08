@@ -17,9 +17,9 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Device = {};
+export type Threat = {};
 
-export const columns: ColumnDef<Device>[] = [
+export const columns: ColumnDef<Threat>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -55,76 +55,44 @@ export const columns: ColumnDef<Device>[] = [
     },
   },
   {
-    accessorKey: "hostnames",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Hostname
+          Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "platform",
+    accessorKey: "severity",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Platform
+          Severity
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "last_seen",
-    header: () => <div className="text-right">Last Seen</div>,
-    cell: ({ row }) => {
-      const lastSeen = parseFloat(row.getValue("last_seen"));
-      const formatted = new Date(lastSeen * 1000).toLocaleString();
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "ipv4s",
-    header: () => <div className="text-right">IP Addresses</div>,
-    cell: ({ row }) => {
-      const ipv4s = (row.getValue("ipv4s") as string[]) || [];
-      return <div className="text-right">{ipv4s.join(", ")}</div>;
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const device = row.original;
-
+    accessorKey: "process_filepath",
+    header: ({ column }) => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(device.id)}
-            >
-              Copy Device ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View device details</DropdownMenuItem>
-            <DropdownMenuItem>View device options</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Process File Path
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
