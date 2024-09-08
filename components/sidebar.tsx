@@ -68,13 +68,13 @@ const SideBar = () => {
           </div>
         )}
         <a
-          href="/endpoints"
+          href="/devices"
           className={`flex items-center gap-3 p-2 text-gray-400 hover:bg-gray-800 hover:text-primary-foreground rounded-md ${
             isCollapsed ? "justify-center" : ""
           }`}
         >
           <Computer className="h-5 w-5" />
-          {!isCollapsed && <span className="font-medium">Endpoints</span>}
+          {!isCollapsed && <span className="font-medium">Devices</span>}
         </a>
 
         <a
