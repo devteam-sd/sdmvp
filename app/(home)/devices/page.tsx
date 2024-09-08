@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Device, columns } from "@/app/(home)/endpoints/colums";
+import { Device, columns } from "@/app/(home)/devices/colums";
 import { DataTable } from "@/components/data-table";
 import { useUser } from "@clerk/nextjs";
 import { fetchData } from "@/lib/data-fetcher";
 
-export default function EndpointsPage() {
+export default function DevicesPage() {
   const { user } = useUser();
   const [data, setData] = useState<Device[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,6 +67,7 @@ export default function EndpointsPage() {
 
   return (
     <div className="container mx-auto p-10">
+      <p className="text-3xl font-bold">Devices</p>
       {data.length > 0 ? (
         <DataTable columns={columns} data={data} />
       ) : (

@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
+        {/* <Input
           placeholder="Filter Platforms..."
           value={
             (table.getColumn("platform")?.getFilterValue() as string) ?? ""
@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
             table.getColumn("platform")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
+        /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
