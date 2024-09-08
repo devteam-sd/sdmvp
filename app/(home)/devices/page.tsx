@@ -67,6 +67,7 @@ export default function DevicesPage() {
 
   return (
     <div className="container mx-auto p-10">
+      <p className="text-3xl font-bold">Devices</p>
       {data.length > 0 ? (
         <DataTable columns={columns} data={data} />
       ) : (
