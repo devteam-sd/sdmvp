@@ -1,18 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { fetchData } from "@/lib/data-fetcher";
+import { Lightbulb, ComputerIcon } from "lucide-react";
 
-export default function Home() {
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { fetchData } from "@/lib/data-fetcher";
+import { useUser } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
+
+export default function TestCards() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true); // Keep loading until all data is fetched
   const [error, setError] = useState<string | null>(null);
@@ -89,58 +84,47 @@ export default function Home() {
   if (!isSignedIn) {
     return <p>You need to be signed in to view this page.</p>;
   }
-
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-semibold mb-6">Device Data</h1>
+      <h1 className="text-2xl font-semibold mb-6">Cards Test</h1>
       {data && data.items.length > 0 ? (
         <>
           <p>Total devices count: {data.total}</p>
           <p>Filtered devices count: {data.count}</p>
           <p>Filters: {JSON.stringify(data.filters)}</p>
           <br />
-          <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="px-4 py-2">ID</TableHead>
-                <TableHead className="px-4 py-2">Hostname</TableHead>
-                <TableHead className="px-4 py-2">Platform</TableHead>
-                <TableHead className="px-4 py-2">Status</TableHead>
-                <TableHead className="px-4 py-2">IP Addresses</TableHead>
-                <TableHead className="px-4 py-2">Last Seen</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.items.map((device: any) => (
-                <TableRow key={device.id} className="hover:bg-gray-100">
-                  <TableCell className="border px-4 py-2">
-                    {device.id || "N/A"}
-                  </TableCell>
-                  <TableCell className="border px-4 py-2">
-                    {device.hostnames && device.hostnames.length > 0
-                      ? device.hostnames.join(", ")
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell className="border px-4 py-2">
-                    {device.platform || "N/A"}
-                  </TableCell>
-                  <TableCell className="border px-4 py-2">
-                    {device.status || "N/A"}
-                  </TableCell>
-                  <TableCell className="border px-4 py-2">
-                    {device.ipv4s && device.ipv4s.length > 0
-                      ? device.ipv4s.join(", ")
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell className="border px-4 py-2">
-                    {device.last_seen
-                      ? new Date(device.last_seen).toLocaleString()
-                      : "N/A"}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+              <Card x-chunk="dashboard-01-chunk-0">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Total Devices
+                  </CardTitle>
+                  <ComputerIcon className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{data.total}</div>
+                  <p className="text-xs text-muted-foreground">
+                    By devices I mean devices :D
+                  </p>
+                </CardContent>
+              </Card>
+              <Card x-chunk="dashboard-01-chunk-1">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Active Devices
+                  </CardTitle>
+                  <Lightbulb className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{data.count}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Filtered by status active and platform linux as example
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
         </>
       ) : (
         <p>No device data available.</p>
