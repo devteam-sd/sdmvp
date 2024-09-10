@@ -107,6 +107,7 @@ export default function TestPage() {
         <DeviceRadialChart
           activeDevices={activeDevices}
           offlineDevices={offlineDevices}
+          title={"Devices Test"}
         />
       </div>
     </div>
