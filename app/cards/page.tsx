@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
-import DeviceRadialChart from "@/components/device-radial-chart";
+import RadialChart from "@/components/radial-chart";
 import { fetchData } from "@/lib/data-fetcher";
 
 export default function TestPage() {
@@ -104,9 +104,10 @@ export default function TestPage() {
         </Card> */}
 
         {/* Device Radial Chart */}
-        <DeviceRadialChart
+        <RadialChart
           activeDevices={activeDevices}
           offlineDevices={offlineDevices}
+          title={"Devices Test"}
         />
       </div>
     </div>

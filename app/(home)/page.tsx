@@ -1,15 +1,13 @@
 "use client";
 
-import { ShieldAlert, Computer } from "lucide-react";
-import DeviceCard from "@/components/device-card";
 import React, { useEffect, useState } from "react";
-import ThreatsCard from "@/components/threats-card";
 import { fetchData } from "@/lib/data-fetcher";
 import { useUser } from "@clerk/nextjs";
-import DeviceRadialChart from "@/components/device-radial-chart";
+import RadialChart from "@/components/radial-chart";
 
 export default function Dashboard() {
-  const [data, setData] = useState<any>(null);
+  const [devicesData, setDevicesData] = useState<any>(null);
+  const [threatsData, setThreatsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [privateMetadata, setPrivateMetadata] = useState<any>(null);
@@ -44,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!privateMetadata || !user) return;
 
-    const getData = async () => {
+    const getDevicesData = async () => {
       try {
         const filters = {
           status: "active",
@@ -57,7 +55,7 @@ export default function Dashboard() {
           privateMetadata.LEEN_S1_CONNECTION_ID,
           filters
         );
-        setData(result);
+        setDevicesData(result);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -65,39 +63,59 @@ export default function Dashboard() {
       }
     };
 
-    getData();
+    const getThreatsData = async () => {
+      try {
+        const filters = {
+          status: "unresolved",
+        };
+
+        const result = await fetchData(
+          "/edr/alerts",
+          privateMetadata.LEEN_API_KEY,
+          privateMetadata.LEEN_S1_CONNECTION_ID,
+          filters
+        );
+        setThreatsData(result);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getDevicesData();
+    getThreatsData();
   }, [privateMetadata, user]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Internal Error: {error}</p>;
 
   // Calculate the active and offline devices
-  const activeDevices = data ? data.count : 0;
-  const totalDevices = data ? data.total : 0;
+  const activeDevices = devicesData ? devicesData.count : 0;
+  const totalDevices = devicesData ? devicesData.total : 0;
   const offlineDevices = totalDevices - activeDevices;
+
+  // Calculate the active and offline threats
+  const unresolvedThreats = threatsData ? threatsData.count : 0;
+  const totalThreats = threatsData ? threatsData.total : 0;
+  const otherThreats = totalThreats - unresolvedThreats;
+
   return (
-    <>
-      <div className="flex flex-row items-center justify-center space-x-6 p-10">
-        <DeviceCard
-          title="Devices"
-          icon={<Computer className="h-8 w-8 text-muted-foreground" />}
-          count={totalDevices}
-          active={activeDevices}
-          offline={offlineDevices}
-        />
-        <ThreatsCard
-          title="Threats"
-          icon={<ShieldAlert className="h-8 w-8 text-muted-foreground" />}
-          count={335}
-          unresolved={23}
-        />
-      </div>
-      <div className="flex justify-center">
-        <DeviceRadialChart
+    <div className="items-center justify-center space-x-20 p-5">
+      <div className="flex flex-row items-center justify-center space-x-20 p-10">
+        <RadialChart
           activeDevices={activeDevices}
           offlineDevices={offlineDevices}
+          title="Devices"
+          subtitle="Active / Offline"
+        />
+        <RadialChart
+          unresolvedThreats={unresolvedThreats}
+          otherThreats={otherThreats}
+          title="Threats"
+          subtitle="Unresolved / Other"
         />
       </div>
-    </>
+    </div>
   );
 }

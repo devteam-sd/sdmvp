@@ -11,27 +11,44 @@ import {
 import React from "react";
 
 interface DeviceRadialChartProps {
-  activeDevices: number;
-  offlineDevices: number;
+  activeDevices?: number;
+  offlineDevices?: number;
+  unresolvedThreats?: number;
+  otherThreats?: number;
+  title: string;
+  subtitle?: string;
 }
 
-export default function DeviceRadialChart({
+export default function RadialChart({
   activeDevices,
   offlineDevices,
+  unresolvedThreats,
+  otherThreats,
+  title,
+  subtitle,
 }: DeviceRadialChartProps) {
-  const totalDevices = activeDevices + offlineDevices;
+  const total =
+    (activeDevices ?? otherThreats ?? 0) +
+    (offlineDevices ?? unresolvedThreats ?? 0);
+  const [attribute1, attribute2] = subtitle?.split(" / ") ?? [];
+  var [attribute1_value, attribute2_value] = [0, 0];
+
+  attribute1_value = activeDevices ?? otherThreats ?? 0;
+  attribute2_value = offlineDevices ?? unresolvedThreats ?? 0;
 
   // Chart Data
   const chartData = [
-    { name: "Active", value: activeDevices, fill: "#36a2eb" }, // Blue for active devices
-    { name: "Offline", value: offlineDevices, fill: "#ff6384" }, // Red for offline devices
+    { name: attribute1, value: attribute1_value, fill: "#36a2eb" }, // Blue
+    { name: attribute2, value: attribute2_value, fill: "#ff6384" }, // Red
   ];
 
   return (
     <Card className="flex flex-col items-center">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Devices</CardTitle>
-        <p className="text-xs text-muted-foreground">Active / Offline</p>
+      <CardHeader className="flex flex-col items-center pb-0">
+        <div className="flex items-center space-x-2">
+          <CardTitle className="text-lg font-medium">{title}</CardTitle>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
       </CardHeader>
 
       {/* Reduce bottom padding of the content to reduce space */}
@@ -50,11 +67,7 @@ export default function DeviceRadialChart({
             startAngle={180}
             endAngle={0}
           >
-            <PolarRadiusAxis
-              type="number"
-              domain={[0, totalDevices]}
-              tick={false}
-            />
+            <PolarRadiusAxis type="number" domain={[0, total]} tick={false} />
 
             {/* Tooltip for Hover Information */}
             <Tooltip
@@ -83,27 +96,29 @@ export default function DeviceRadialChart({
               className="fill-foreground"
             >
               <tspan x={125} y={110} className="text-3xl font-bold">
-                {totalDevices}
+                {total}
               </tspan>
               <tspan x={125} y={130} className="text-sm text-muted-foreground">
-                Devices
+                {title}
               </tspan>
             </text>
           </RadialBarChart>
         </div>
       </CardContent>
-
-      {/* Adjust the footer to reduce space between chart and footer */}
       <CardFooter className="flex-col gap-1 text-sm text-center">
-        <p className="font-semibold">Device Status Overview</p>
+        <p className="font-semibold">{title} Status Overview</p>
         <div className="flex justify-center space-x-4">
           <div className="flex items-center text-blue-500">
             <span className="text-lg">●</span>{" "}
-            <span className="ml-1">Active {activeDevices}</span>
+            <span className="ml-1">
+              {attribute1} {attribute1_value}
+            </span>
           </div>
           <div className="flex items-center text-red-500">
             <span className="text-lg">●</span>{" "}
-            <span className="ml-1">Offline {offlineDevices}</span>
+            <span className="ml-1">
+              {attribute2} {attribute2_value}
+            </span>
           </div>
         </div>
       </CardFooter>
