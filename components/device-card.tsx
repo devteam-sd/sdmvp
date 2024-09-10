@@ -7,6 +7,7 @@ interface DeviceCardProps {
   icon: React.ReactNode;
   count: number;
   active: number;
+  offline: number;
 }
 
 export default function DeviceCard({
@@ -14,6 +15,7 @@ export default function DeviceCard({
   icon,
   count,
   active,
+  offline,
 }: DeviceCardProps) {
   return (
     <Card className="min-w-[250px]">
@@ -22,8 +24,15 @@ export default function DeviceCard({
         {icon} {/* Render the icon directly as JSX */}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{count}</div>
-        <p className="text-xs text-muted-foreground">{active} Active devices</p>
+        <div className="text-2xl font-bold">
+          {count === undefined ? 0 : count}
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {active === undefined ? 0 : active} Active
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {offline === undefined ? 0 : offline} Offline
+        </p>
       </CardContent>
     </Card>
   );
