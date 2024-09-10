@@ -13,11 +13,13 @@ import React from "react";
 interface DeviceRadialChartProps {
   activeDevices: number;
   offlineDevices: number;
+  title: string;
 }
 
 export default function DeviceRadialChart({
   activeDevices,
   offlineDevices,
+  title,
 }: DeviceRadialChartProps) {
   const totalDevices = activeDevices + offlineDevices;
 
@@ -29,9 +31,11 @@ export default function DeviceRadialChart({
 
   return (
     <Card className="flex flex-col items-center">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Devices</CardTitle>
-        <p className="text-xs text-muted-foreground">Active / Offline</p>
+      <CardHeader className="flex flex-col items-center pb-0">
+        <div className="flex items-center space-x-2">
+          <CardTitle className="text-lg font-medium">{title}</CardTitle>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">Active / Offline</p>
       </CardHeader>
 
       {/* Reduce bottom padding of the content to reduce space */}

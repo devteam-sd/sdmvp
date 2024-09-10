@@ -76,8 +76,8 @@ export default function Dashboard() {
   const totalDevices = data ? data.total : 0;
   const offlineDevices = totalDevices - activeDevices;
   return (
-    <>
-      <div className="flex flex-row items-center justify-center space-x-6 p-10">
+    <div className="items-center justify-center space-x-20 p-5">
+      {/* <div className="flex flex-row items-center justify-center space-x-20 p-5">
         <DeviceCard
           title="Devices"
           icon={<Computer className="h-8 w-8 text-muted-foreground" />}
@@ -91,13 +91,19 @@ export default function Dashboard() {
           count={335}
           unresolved={23}
         />
-      </div>
-      <div className="flex justify-center">
+      </div> */}
+      <div className="flex flex-row items-center justify-center space-x-20 p-10">
         <DeviceRadialChart
           activeDevices={activeDevices}
           offlineDevices={offlineDevices}
+          title="Devices"
+        />
+        <DeviceRadialChart
+          activeDevices={activeDevices}
+          offlineDevices={offlineDevices}
+          title="Threats"
         />
       </div>
-    </>
+    </div>
   );
 }
