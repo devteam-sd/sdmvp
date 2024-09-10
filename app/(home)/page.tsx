@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "@/lib/data-fetcher";
 import { useUser } from "@clerk/nextjs";
-import RadialChart from "@/components/radial-chart";
+import RadialBarChartCustom from "@/components/radial-bar-chart-custom";
 
 export default function Dashboard() {
   const [devicesData, setDevicesData] = useState<any>(null);
@@ -102,13 +102,13 @@ export default function Dashboard() {
   return (
     <div className="items-center justify-center space-x-20 p-5">
       <div className="flex flex-row items-center justify-center space-x-20 p-10">
-        <RadialChart
+        <RadialBarChartCustom
+          title={"Devices"}
+          subtitle="Active / Offline"
           activeDevices={activeDevices}
           offlineDevices={offlineDevices}
-          title="Devices"
-          subtitle="Active / Offline"
         />
-        <RadialChart
+        <RadialBarChartCustom
           unresolvedThreats={unresolvedThreats}
           otherThreats={otherThreats}
           title="Threats"
