@@ -46,7 +46,6 @@ export default function Dashboard() {
       try {
         const filters = {
           status: "active",
-          platform: "linux",
         };
 
         const result = await fetchData(

@@ -33,8 +33,8 @@ export default function RadialChart({
   const [attribute1, attribute2] = subtitle?.split(" / ") ?? [];
   var [attribute1_value, attribute2_value] = [0, 0];
 
-  attribute1_value = activeDevices ?? otherThreats ?? 0;
-  attribute2_value = offlineDevices ?? unresolvedThreats ?? 0;
+  attribute1_value = activeDevices ?? unresolvedThreats ?? 0;
+  attribute2_value = offlineDevices ?? otherThreats ?? 0;
 
   // Chart Data
   const chartData = [
