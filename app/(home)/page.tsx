@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "@/lib/data-fetcher";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import TopLoader from "nextjs-toploader"; // Import TopLoader
 import RadialBarChartCustom from "@/components/radial-bar-chart-custom";
 
 export default function Dashboard() {
@@ -12,12 +14,18 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [privateMetadata, setPrivateMetadata] = useState<any>(null);
   const { isLoaded, isSignedIn, user } = useUser();
+  const router = useRouter();
 
+  // Handle authentication and redirect if necessary
   useEffect(() => {
-    if (!isLoaded || !isSignedIn) {
-      setLoading(false);
-      return;
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in"); // Redirect to sign-in if not authenticated
     }
+  }, [isLoaded, isSignedIn, router]);
+
+  // Fetch private metadata after authentication is loaded
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !user) return;
 
     const fetchPrivateMetadata = async () => {
       try {
@@ -31,14 +39,13 @@ export default function Dashboard() {
         }
       } catch (err: any) {
         setError("Error fetching metadata: " + err.message);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchPrivateMetadata();
   }, [isLoaded, isSignedIn, user]);
 
+  // Fetch data based on metadata
   useEffect(() => {
     if (!privateMetadata || !user) return;
 
@@ -57,8 +64,6 @@ export default function Dashboard() {
         setDevicesData(result);
       } catch (err: any) {
         setError(err.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -86,7 +91,15 @@ export default function Dashboard() {
     getThreatsData();
   }, [privateMetadata, user]);
 
-  if (loading) return <p>Loading...</p>;
+  // Ensure the page doesn't render until authentication state is loaded
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <TopLoader />
+      </div>
+    );
+  }
+
   if (error) return <p>Internal Error: {error}</p>;
 
   // Calculate the active and offline devices

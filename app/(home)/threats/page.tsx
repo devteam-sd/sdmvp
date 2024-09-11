@@ -5,13 +5,14 @@ import { Threat, columns } from "@/app/(home)/threats/colums";
 import { DataTable } from "@/components/data-table";
 import { useUser } from "@clerk/nextjs";
 import { fetchData } from "@/lib/data-fetcher";
+import TopLoader from "nextjs-toploader"; // Import TopLoader
 
 export default function ThreatsPage() {
-  const { user } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
   const [data, setData] = useState<Threat[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [privateMetadata, setPrivateMetadata] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch user metadata
   useEffect(() => {
@@ -26,11 +27,9 @@ export default function ThreatsPage() {
           setPrivateMetadata(result.privateMetadata);
         } else {
           setError(result.error || "Failed to fetch private metadata.");
-          setLoading(false); // Stop loading if there's an error
         }
       } catch (err: any) {
         setError("Error fetching metadata: " + err.message);
-        setLoading(false); // Stop loading if there's an error
       }
     };
 
@@ -55,18 +54,29 @@ export default function ThreatsPage() {
       } catch (err: any) {
         setError("Error fetching data: " + err.message);
       } finally {
-        setLoading(false); // Stop loading after both data and metadata are fetched
+        setLoading(false); // Data fetch complete
       }
     };
 
     fetchDataFromAPI();
   }, [privateMetadata]);
 
-  if (loading) return <p>Loading...</p>;
+  // Only show TopLoader and hide content until the data is fully loaded
+  if (!isLoaded || loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <TopLoader />
+      </div>
+    );
+  }
+
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
+      {/* Include TopLoader component */}
+      <TopLoader />
+
       <div className="container mx-auto p-10">
         <p className="text-3xl font-bold">Threats</p>
         {data.length > 0 ? (

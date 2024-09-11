@@ -1,4 +1,5 @@
 // components/Navbar.tsx
+"use client";
 import { UserButton, useUser } from "@clerk/nextjs";
 
 const Navbar = () => {

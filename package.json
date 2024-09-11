@@ -22,6 +22,7 @@
     "fetch": "^1.1.0",
     "lucide-react": "^0.438.0",
     "next": "14.2.7",
+    "nextjs-toploader": "^3.6.15",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import TopLoader from "nextjs-toploader"; // Import TopLoader
 
 export default function AuthLayout({
   children,
@@ -7,6 +8,9 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      {/* Include TopLoader */}
+      <TopLoader />
+
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-5xl w-full mx-4">
         <div className="auth-layout-container flex flex-col lg:flex-row ">
           {/* Left Column */}
