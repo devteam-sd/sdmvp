@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Computer, ShieldAlert, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
