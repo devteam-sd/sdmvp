@@ -11,11 +11,9 @@ SD-MVP is a minimum viable product (MVP) project using Next.js, Tailwind CSS, an
 
 ## Features
 
-The core features of the project include:
-
 - **Authentication**: User authentication is handled by Clerk, a user management platform.
+
 - **Data Fetching**: Data is fetched from the Leen API, which provides a simple REST API for fetching data.
-- **Data Visualization**: Data is visualized using Recharts, a popular React charting library.
 
 ## Installation
 
