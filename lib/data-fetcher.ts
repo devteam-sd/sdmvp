@@ -12,7 +12,7 @@ export async function fetchData(
     "X-CONNECTION-ID": connectionId,
   });
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${API_BASE_URL}${endpoint}?limit=500`, {
     headers,
   });
 
